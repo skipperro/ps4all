@@ -1,0 +1,30 @@
+# Latest Ubuntu LTS
+FROM ghcr.io/selkies-project/selkies-egl-desktop:26.04
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+ENV WINEPREFIX="/home/ubuntu/.wine"
+ENV WINEDLLOVERRIDES="mscoree,mshtml="
+ENV WINEDEBUG="-all"
+
+# Create desktop
+RUN /etc/container-entrypoint.sh &
+
+# Install all the required packages not included in base image
+RUN sudo apt update
+RUN sudo apt install -y software-properties-common wget
+RUN sudo dpkg --add-architecture i386
+RUN mkdir -pm755 /etc/apt/keyrings
+RUN sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
+RUN sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/resolute/winehq-resolute.sources
+RUN sudo apt update
+RUN sudo apt-get install -y ca-certificates gnupg curl winehq-stable mangohud
+
+# Install codecs
+RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
+RUN sudo apt-get install -y ubuntu-restricted-extras
+
+RUN sudo rm -rf /var/lib/apt/lists/*
+
+# Cleanup
+RUN sudo apt autoremove -y
