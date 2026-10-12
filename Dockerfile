@@ -18,8 +18,10 @@ RUN wget \
   https://github.com/Open-Wine-Components/umu-launcher/releases/download/1.4.4/python3-umu-launcher_1.4.4-1_amd64_ubuntu-resolute.deb \
   -O /tmp/umu.deb
 
+RUN sudo apt update
 RUN sudo apt install -y /tmp/umu.deb
 RUN rm -f /tmp/umu.deb
+RUN sudo rm -rf /var/lib/apt/lists/*
 
 # Initialize wineprefix with GE-proton. Exit code 1 is expected since we are not running a game yet.
 RUN umu-run "" || true

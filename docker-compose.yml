@@ -101,5 +101,3 @@ services:
 #    - SELKIES_TURN_PASSWORD=mypasswd
     # TURN REST API credentials, which replace every other TURN setting
 #    - 'SELKIES_TURN_REST_URI=http://localhost:8008'
-volumes:
-  arcware-prefix:
