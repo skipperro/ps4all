@@ -3,7 +3,7 @@ FROM ghcr.io/selkies-project/selkies-egl-desktop:26.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV WINEPREFIX="/home/ubuntu/proton"
+ENV WINEPREFIX="/home/ubuntu/.wineprefix-proton"
 ENV WINEDEBUG="-all"
 ENV PROTONPATH="GE-Proton"
 
@@ -37,21 +37,7 @@ RUN rm -rf mangohud-upstream
 RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
 RUN sudo apt-get install -y ubuntu-restricted-extras
 
-# Install umu run and GE-proton
-RUN wget \
-  https://github.com/Open-Wine-Components/umu-launcher/releases/download/1.4.4/python3-umu-launcher_1.4.4-1_amd64_ubuntu-resolute.deb \
-  -O /tmp/umu.deb
-
-RUN sudo apt install -y /tmp/umu.deb
-RUN rm -f /tmp/umu.deb
-
-# Initialize wineprefix with GE-proton. Exit code 1 is expected since we are not running a game yet.
-RUN umu-run "" || true
-
 RUN sudo rm -rf /var/lib/apt/lists/*
 
 # Cleanup
 RUN sudo apt autoremove -y
-
-# Export wineprefix as volume
-VOLUME ["/home/ubuntu/proton"]
