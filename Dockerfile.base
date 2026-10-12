@@ -18,7 +18,20 @@ RUN sudo apt install -y software-properties-common wget
 #RUN sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
 #RUN sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/resolute/winehq-resolute.sources
 RUN sudo apt update
-RUN sudo apt-get install -y ca-certificates gnupg curl mangohud
+RUN sudo apt-get install -y ca-certificates gnupg curl wget
+
+# Install MangoHud with NVIDIA support
+RUN wget https://github.com/flightlessmango/MangoHud/releases/download/v0.8.4/MangoHud-0.8.4.r0.g992103e.tar.gz
+
+RUN mkdir -p /home/ubuntu/mangohud-upstream
+RUN tar -xzf MangoHud-0.8.4.r0.g992103e.tar.gz \
+    -C /home/ubuntu/mangohud-upstream
+RUN rm -f MangoHud-0.8.4.r0.g992103e.tar.gz
+WORKDIR /home/ubuntu/mangohud-upstream
+
+RUN ./mangohud-setup.sh install
+WORKDIR /home/ubuntu
+RUN rm -rf mangohud-upstream
 
 # Install codecs
 RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
