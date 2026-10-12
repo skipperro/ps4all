@@ -45,6 +45,8 @@ RUN wget \
 RUN sudo apt install -y /tmp/umu.deb
 RUN rm -f /tmp/umu.deb
 
+# Initialize wineprefix with GE-proton. Exit code 1 is expected since we are not running a game yet.
+RUN umu-run "" || true
 
 RUN sudo rm -rf /var/lib/apt/lists/*
 
