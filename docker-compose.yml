@@ -36,15 +36,12 @@ services:
     #  - '/dev/dri:/dev/dri'
     volumes:
       - ./app:/home/ubuntu/app:ro
-      - ./wineprefix:/home/ubuntu/.wineprefix-proton:rw
 
     # Uncomment to disable network isolation, which the WebRTC transport needs
     # without a TURN server; display `:20` must then be free on the host
 #    network_mode: 'host'
     environment:
     - TZ=UTC
-    - WINEPREFIX=/home/ubuntu/.wineprefix-proton
-    - PROTONPATH=GE-Proton
     # Password of the container Linux user, and the web login when
     # SELKIES_BASIC_AUTH_PASSWORD is not set
     #- PASSWD=mypasswd

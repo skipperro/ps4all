@@ -3,9 +3,9 @@ FROM ghcr.io/selkies-project/selkies-egl-desktop:26.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV WINEPREFIX="/home/ubuntu/.wineprefix-proton"
+ENV WINEPREFIX="/home/ubuntu/proton"
 ENV WINEDEBUG="-all"
-ENV PROTONPATH="GE-Proton"
+ENV PROTONPATH="GE-Proton11-7"
 ENV PROTON_NVIDIA_LIBS=1
 ENV PROTON_NVIDIA_NVCUDA=1
 ENV PROTON_NVIDIA_NVENC=1
@@ -41,6 +41,7 @@ COPY --chown=1000:1000 \
 
 # Initialize wineprefix with GE-proton. Exit code 1 is expected since we are not running a game yet.
 RUN umu-run "" || true
+RUN sudo chown -R ubuntu:ubuntu /home/ubuntu/proton
 RUN umu-run "" || true
 RUN umu-run "" || true
 
