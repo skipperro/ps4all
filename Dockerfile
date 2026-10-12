@@ -40,6 +40,7 @@ COPY --chown=1000:1000 \
     /home/ubuntu/.config/MangoHud/MangoHud.conf
 
 # Initialize wineprefix with GE-proton. Exit code 1 is expected since we are not running a game yet.
+RUN mkdir -p /home/ubuntu/proton
 RUN WINEPREFIX=/home/ubuntu/proton umu-run "" || true
 RUN sudo chown -R ubuntu:ubuntu /home/ubuntu/proton
 RUN WINEPREFIX=/home/ubuntu/proton umu-run "" || true
