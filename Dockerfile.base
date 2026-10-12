@@ -3,7 +3,7 @@ FROM ghcr.io/selkies-project/selkies-egl-desktop:26.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV WINEPREFIX="/home/ubuntu/arcware-prefix"
+ENV WINEPREFIX="/home/ubuntu/proton"
 ENV WINEDEBUG="-all"
 ENV PROTONPATH="GE-Proton"
 
@@ -52,3 +52,6 @@ RUN sudo rm -rf /var/lib/apt/lists/*
 
 # Cleanup
 RUN sudo apt autoremove -y
+
+# Export wineprefix as volume
+VOLUME ["/home/ubuntu/proton"]
