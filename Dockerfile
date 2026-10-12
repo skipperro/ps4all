@@ -39,11 +39,6 @@ COPY --chown=1000:1000 \
     mangohud/MangoHud.conf \
     /home/ubuntu/.config/MangoHud/MangoHud.conf
 
-# Initialize wineprefix with GE-proton. Exit code 1 is expected since we are not running a game yet.
-RUN mkdir -p /home/ubuntu/proton
-RUN  umu-run ""
-RUN  umu-run ""
-
 # Cleanup
 RUN sudo apt autoremove -y
 RUN sudo rm -rf /var/lib/apt/lists/*
