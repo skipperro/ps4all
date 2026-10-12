@@ -1,81 +1,105 @@
-# ue-docker-nvidia
-Run **Windows Unreal Engine** apps inside a **Linux** Docker container with full **NVIDIA GPU** acceleration — and stream them in your **web browser** via Selkies-GStreamer.
+# PS4All — Pixel Streaming for Everyone
+
+Run any application inside a Linux Docker container with full **NVIDIA GPU** acceleration and stream it to your **web browser** through [Selkies](https://github.com/selkies-project/selkies). Use it as the foundation for your own cloud gaming service.
 
 > [!CAUTION]
-> This is just a proof of concept and work in progress piece of code. It works on my machine and with my application.
->
-> Your milage may vary. **Run at your own risk** ⚠️
+> **Work in progress.** This is a proof of concept that works on the author's machine with the author's applications. Your mileage may vary. **Use at your own risk.**
 
-![Lyra running in browser from docker container](images/ue5-lyra-linux.jpg)
-UE 5 Lyra running in browser from docker container
+![Unreal Engine 5 Lyra streamed to a web browser from a Docker container](images/ue5-lyra-linux.jpg)
+*Unreal Engine 5 Lyra running in a browser, streamed from a Docker container.*
 
+## Table of Contents
 
-## ✨ Features
-- Supports **DirectX 11 and 12** applications with output to Vulkan.
-- Based on **nvidia-egl** Linux image with KDE desktop.
-- **Selkies-Gstreamer** for remote access **via web-browser** with Pixelstreaming-like performance.
-- **Wineprefix** with VC++ libraries, fonts, codecs and ann NVIDIA components.
-- **MangoHud** included.
+- [Features](#features)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Bare-Metal Install](#bare-metal-install)
+- [Roadmap](#roadmap)
+- [License](#license)
 
-## ✅ System requirements
-- NVIDIA GPU with drivers **535.xx** or newer.
-- Linux Kernel **5.x** or newer.
-- Internet connection.
+## Features
 
-## 🔧 Instructions
-### Install docker
-Installation script is available at https://get.docker.com/
-```
+- Built on **Ubuntu 26.04 LTS**.
+- Runs Windows applications through a custom **Proton** build (Wine + DXVK + VKD3D).
+- Remote access via web browser with **Selkies**, delivering Pixel Streaming-like performance.
+- **MangoHud** performance overlay included.
+
+## Requirements
+
+- NVIDIA GPU with driver version **535.xx** or newer
+- Linux kernel **5.x** or newer
+- Internet connection
+
+## Installation
+
+### 1. Install Docker
+
+Use the official convenience script ([get.docker.com](https://get.docker.com/)):
+
+```bash
 curl -fsSL https://get.docker.com -o install-docker.sh
 sudo sh install-docker.sh
 ```
-### Install nvidia-container-toolkit
-Instructions are available at https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
-```
+
+### 2. Install the NVIDIA Container Toolkit
+
+Full instructions are in the [official install guide](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html). For Debian/Ubuntu:
+
+```bash
+# Add the repository
 curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
   && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
     sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
     sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
-```
-```
+
+# Install the toolkit and configure Docker to use it
 sudo apt-get install -y nvidia-container-toolkit
 sudo nvidia-ctk runtime configure --runtime=docker
 sudo systemctl restart docker
 ```
-### Clone this repository
-```
-git clone https://github.com/Skipperro/ue-docker-nvidia.git
-cd ue-docker-nvidia
-```
-### Build image
 
-```
-sudo sh build.sh
+### 3. Clone the repository
+
+```bash
+git clone https://github.com/Skipperro/ps4all.git
+cd ps4all
 ```
 
-### Copy your application to app directory
-Copy the whole UE application to the `app` directory. **No zip files** - It must be extracted.
+### 4. Build the image
 
-The included script will find the proper executable automatically, as long as there is just one .exe file in `Project/Binaries/Win64` directory.
-
-You can even have spaces in project name, but for now only one app can be present in the app directory.
-
-### Create wineprefix
-> [!NOTE]
-> Because building wineprefix to run Unreal Engine applications requires GUI (to display popups from various setup.exe files), it's impossible to do it as part of the image building. 
-> 
-> To work around this issue you can use create_wineprefix.sh script to create it on your GUI-capable Linux workstation or **just skip this step** and wineprefix will be created during the first run of your application. It will take a few minutes.
-
-## 🚀 Usage
-### Run the application
-```
-sudo sh run.sh [optional parameters to pass to UE application]
+```bash
+sudo docker compose build
 ```
 
-### Check if it's running using Selkies-Gstreamer
-Just visit http://localhost:8080/
+### 5. Add your applications
 
-Replace `localhost` with IP if you are testing from different device.
+Copy the applications you want to run into the `app` directory. Archives are not supported — files **must be extracted**.
 
-While running use **Shift+F12** to bring up MangoHud with performance statistics.
+## Usage
+
+### Start the container
+
+```bash
+sudo docker compose up -d
+```
+
+### Open the stream
+
+Visit <https://localhost:8080/> in your browser. When connecting from another device, replace `localhost` with the host's IP address.
+
+### Performance overlay
+
+Press **Shift+F12** while streaming to toggle the MangoHud overlay with performance statistics.
+
+## Roadmap
+
+- [ ] Run single applications without a desktop environment
+- [ ] Launch a specific application on startup and stop the container when it exits
+- [ ] Allow overriding the Selkies UI for custom branding or white-labeling
+- [ ] Improve mouse handling for FPS games
+
+## License
+
+See [LICENSE](LICENSE).
 
