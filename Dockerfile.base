@@ -18,7 +18,7 @@ RUN sudo apt install -y software-properties-common wget
 #RUN sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
 #RUN sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/resolute/winehq-resolute.sources
 RUN sudo apt update
-RUN sudo apt-get install -y ca-certificates gnupg curl mangohud gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly
+RUN sudo apt-get install -y ca-certificates gnupg curl mangohud
 
 # Install codecs
 RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
