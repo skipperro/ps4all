@@ -3,7 +3,10 @@ services:
     container_name: ps4all
     hostname: ps4all
     image: ps4all
-    build: .
+    build:
+      context: .
+      entitlements:
+        - security.insecure
     # NVIDIA GPUs: the NVIDIA Container Toolkit (v1.20.1 or higher) runtime and
     # a device reservation; other GPUs are passed as devices instead (see below)
     runtime: nvidia

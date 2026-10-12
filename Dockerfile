@@ -5,7 +5,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 ENV WINEPREFIX="/home/ubuntu/proton"
 ENV WINEDEBUG="-all"
-ENV PROTONPATH="GE-Proton11-7"
+ENV PROTONPATH="GE-Proton"
 ENV PROTON_NVIDIA_LIBS=1
 ENV PROTON_NVIDIA_NVCUDA=1
 ENV PROTON_NVIDIA_NVENC=1
@@ -41,10 +41,8 @@ COPY --chown=1000:1000 \
 
 # Initialize wineprefix with GE-proton. Exit code 1 is expected since we are not running a game yet.
 RUN mkdir -p /home/ubuntu/proton
-RUN WINEPREFIX=/home/ubuntu/proton umu-run "" || true
-RUN sudo chown -R ubuntu:ubuntu /home/ubuntu/proton
-RUN WINEPREFIX=/home/ubuntu/proton umu-run "" || true
-RUN WINEPREFIX=/home/ubuntu/proton umu-run "" || true
+RUN  umu-run ""
+RUN  umu-run ""
 
 # Cleanup
 RUN sudo apt autoremove -y
