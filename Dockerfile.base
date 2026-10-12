@@ -3,9 +3,9 @@ FROM ghcr.io/selkies-project/selkies-egl-desktop:26.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV WINEPREFIX="/home/ubuntu/.wine"
-ENV WINEDLLOVERRIDES="mscoree,mshtml="
+ENV WINEPREFIX="/home/ubuntu/arcware-prefix"
 ENV WINEDEBUG="-all"
+ENV PROTONPATH="GE-Proton"
 
 # Create desktop
 RUN /etc/container-entrypoint.sh &
@@ -18,11 +18,20 @@ RUN sudo apt install -y software-properties-common wget
 #RUN sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
 #RUN sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/resolute/winehq-resolute.sources
 RUN sudo apt update
-RUN sudo apt-get install -y ca-certificates gnupg curl mangohud wine winetricks gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly
+RUN sudo apt-get install -y ca-certificates gnupg curl mangohud gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly
 
 # Install codecs
 RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
 RUN sudo apt-get install -y ubuntu-restricted-extras
+
+# Install umu run and GE-proton
+RUN wget \
+  https://github.com/Open-Wine-Components/umu-launcher/releases/download/1.4.4/python3-umu-launcher_1.4.4-1_amd64_ubuntu-resolute.deb \
+  -O /tmp/umu.deb
+
+RUN sudo apt install -y /tmp/umu.deb
+RUN rm -f /tmp/umu.deb
+
 
 RUN sudo rm -rf /var/lib/apt/lists/*
 
