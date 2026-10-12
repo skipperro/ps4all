@@ -39,6 +39,7 @@ services:
     #  - '/dev/dri:/dev/dri'
     volumes:
       - ./app:/home/ubuntu/app:ro
+      - umu-cache:/home/ubuntu/.local/share/umu
 
     # Uncomment to disable network isolation, which the WebRTC transport needs
     # without a TURN server; display `:20` must then be free on the host
@@ -96,3 +97,6 @@ services:
 #    - SELKIES_TURN_PASSWORD=mypasswd
     # TURN REST API credentials, which replace every other TURN setting
 #    - 'SELKIES_TURN_REST_URI=http://localhost:8008'
+
+volumes:
+  umu-cache:
