@@ -41,6 +41,8 @@ COPY --chown=1000:1000 \
 
 # Initialize wineprefix with GE-proton. Exit code 1 is expected since we are not running a game yet.
 RUN umu-run "" || true
+RUN umu-run "" || true
+RUN umu-run "" || true
 
 # Cleanup
 RUN sudo apt autoremove -y
