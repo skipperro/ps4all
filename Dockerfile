@@ -4,8 +4,8 @@ ENV WINEPREFIX="/home/ubuntu/arcware-prefix"
 ENV WINEDEBUG="-all"
 ENV PROTONPATH="GE-Proton"
 
-# Initialize wineprefix with GE-proton
-RUN umu-run ""
+# Initialize wineprefix with GE-proton. Exit code 1 is expected since we are not running a game yet.
+RUN umu-run "" || true
 
 # Copy MangoHud config
 RUN mkdir -p /home/ubuntu/.config/MangoHud
