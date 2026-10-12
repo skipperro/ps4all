@@ -25,7 +25,7 @@ RUN wget https://github.com/flightlessmango/MangoHud/releases/download/v0.8.4/Ma
 
 RUN mkdir -p /home/ubuntu/mangohud-upstream
 RUN tar -xzf MangoHud-0.8.4.r0.g992103e.tar.gz \
-    -C /home/ubuntu/mangohud-upstream
+    -C /home/ubuntu/mangohud-upstream --strip-components=1
 RUN rm -f MangoHud-0.8.4.r0.g992103e.tar.gz
 WORKDIR /home/ubuntu/mangohud-upstream
 
