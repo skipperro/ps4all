@@ -3,9 +3,9 @@ FROM ghcr.io/selkies-project/selkies-egl-desktop:26.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV WINEPREFIX="/home/ubuntu/proton"
+ENV WINEPREFIX="/home/ubuntu/wineprefix"
 ENV WINEDEBUG="-all"
-ENV PROTONPATH="GE-Proton"
+ENV PROTONPATH="/home/ubuntu/proton"
 # Tweaks for having working CUDA with Proton
 ENV PROTON_NVIDIA_LIBS=1
 ENV PROTON_NVIDIA_NVCUDA=1
@@ -13,6 +13,7 @@ ENV PROTON_NVIDIA_NVENC=1
 ENV PROTON_FORCE_NVAPI=1
 # Tweak for UE apps crash due to missing GPU information
 ENV DXVK_NVAPI_D3D12_NV_SHADER_EXTN=1
+ENV UMU_RUNTIME_UPDATE=0
 
 # Install all the required packages not included in base image
 RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections \
@@ -41,9 +42,15 @@ COPY --chown=1000:1000 \
     mangohud/MangoHud.conf \
     /home/ubuntu/.config/MangoHud/MangoHud.conf
 
+# Download and install Proton GE (https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton11-7/GE-Proton11-7-x86_64.tar.gz)
+# Under /home/ubuntu/proton, so that it can be used by umu-run
+RUN mkdir -p /home/ubuntu/proton \
+ && wget -qO- https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton11-7/GE-Proton11-7-x86_64.tar.gz \
+  | tar -xz -C /home/ubuntu/proton --strip-components=1
+
 # Run umu-run once so it can download Valve's Proton and other stuff
 RUN mkdir -p /home/ubuntu/proton
-RUN umu-run "" || true
+RUN UMU_RUNTIME_UPDATE=1 umu-run "" || true
 
 # Cleanup
 RUN sudo apt autoremove -y
