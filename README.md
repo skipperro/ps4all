@@ -14,7 +14,6 @@ Run any application inside a Linux Docker container with full **NVIDIA GPU** acc
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Bare-Metal Install](#bare-metal-install)
 - [Roadmap](#roadmap)
 - [License](#license)
 
