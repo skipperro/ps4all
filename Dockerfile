@@ -6,10 +6,12 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV WINEPREFIX="/home/ubuntu/proton"
 ENV WINEDEBUG="-all"
 ENV PROTONPATH="GE-Proton"
+# Tweaks for having working CUDA with Proton
 ENV PROTON_NVIDIA_LIBS=1
 ENV PROTON_NVIDIA_NVCUDA=1
 ENV PROTON_NVIDIA_NVENC=1
 ENV PROTON_FORCE_NVAPI=1
+# Tweak for UE apps crash due to missing GPU information
 ENV DXVK_NVAPI_D3D12_NV_SHADER_EXTN=1
 
 # Install all the required packages not included in base image
@@ -23,7 +25,7 @@ RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula selec
  && sudo apt clean \
  && sudo rm -rf /var/lib/apt/lists/*
 
-# Install MangoHud with NVIDIA support
+# Install MangoHud with NVIDIA support (not really required, but nice)
 RUN mkdir -p /home/ubuntu/mangohud-upstream \
  && wget -qO- https://github.com/flightlessmango/MangoHud/releases/download/v0.8.4/MangoHud-0.8.4.r0.g992103e.tar.gz \
   | tar -xz -C /home/ubuntu/mangohud-upstream --strip-components=1 \
@@ -39,7 +41,7 @@ COPY --chown=1000:1000 \
     mangohud/MangoHud.conf \
     /home/ubuntu/.config/MangoHud/MangoHud.conf
 
-# Create Proton environment
+# Run umu-run once so it can download Valve's Proton and other stuff
 RUN mkdir -p /home/ubuntu/proton
 RUN umu-run "" || true
 

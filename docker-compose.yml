@@ -68,7 +68,7 @@ services:
 #    - SELKIES_MANUAL_WIDTH=1920
 #    - SELKIES_MANUAL_HEIGHT=1080
     # The web login, on by default: `ubuntu` and PASSWD unless set here
-#    - SELKIES_ENABLE_BASIC_AUTH=true
+    - SELKIES_ENABLE_BASIC_AUTH=false
 #    - SELKIES_BASIC_AUTH_USER=ubuntu
 #    - SELKIES_BASIC_AUTH_PASSWORD=mypasswd
     # TLS is served by default on a certificate minted per install; name a real
