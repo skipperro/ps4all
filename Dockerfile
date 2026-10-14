@@ -48,10 +48,6 @@ RUN UMU_RUNTIME_UPDATE=1 umu-run "" || true
 RUN sudo apt autoremove -y
 RUN sudo rm -rf /var/lib/apt/lists/*
 
-# Own /home/ubuntu by ubuntu on every container start (via sudo), so it can write to mounted volumes
-COPY --chmod=755 entrypoint.sh /etc/ps4all-entrypoint.sh
-ENTRYPOINT ["/etc/ps4all-entrypoint.sh"]
-
 # Sensible defaults
 ENV UMU_RUNTIME_UPDATE=0
 ENV NVIDIA_DRIVER_CAPABILITIES=all \

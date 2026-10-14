@@ -40,9 +40,9 @@ services:
     volumes:
       - ./app:/home/ubuntu/app:rw
       - ./mangohud:/home/ubuntu/.config/MangoHud:ro
-      - umu-cache:/home/ubuntu/.local/share/umu/:rw
-      - appdata-cache:/home/ubuntu/wineprefix/drive_c/users/steamuser/AppData/:rw
-      - nvidia-cache:/home/ubuntu/.cache/nvidia/:rw
+      - .cache/umu:/home/ubuntu/.local/share/umu/:rw
+      - .cache/appdata:/home/ubuntu/wineprefix/drive_c/users/steamuser/AppData/:rw
+      - .cache/nvidia:/home/ubuntu/.cache/nvidia/:rw
 
     # Uncomment to disable network isolation, which the WebRTC transport needs
     # without a TURN server; display `:20` must then be free on the host
@@ -78,7 +78,3 @@ services:
 #    - SELKIES_RUN_AFTER_DISCONNECT=killall umu-run
 #    - START_PLASMA=false
 
-volumes:
-  umu-cache:
-  appdata-cache:
-  nvidia-cache:
