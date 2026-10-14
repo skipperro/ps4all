@@ -39,7 +39,7 @@ services:
     #  - '/dev/dri:/dev/dri'
     volumes:
       - ./app:/home/ubuntu/app:rw
-      - ./mangohud/MangoHud.conf:/home/ubuntu/.config/MangoHud/MangoHud.conf:ro
+      - ./mangohud:/home/ubuntu/.config/MangoHud:ro
       - umu-cache:/home/ubuntu/.local/share/umu
       - appdata-cache:/home/ubuntu/wineprefix/drive_c/users/steamuser/AppData/
       - appdata-cache:/home/ubuntu/wineprefix/drive_c/users/steamuser/AppData/

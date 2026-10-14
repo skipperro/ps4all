@@ -34,13 +34,6 @@ RUN mkdir -p /home/ubuntu/mangohud-upstream \
  && cd /home/ubuntu \
  && rm -rf mangohud-upstream
 
-# Copy MangoHud config
-RUN mkdir -p /home/ubuntu/.config/MangoHud
-
-COPY --chown=1000:1000 \
-    mangohud/MangoHud.conf \
-    /home/ubuntu/.config/MangoHud/MangoHud.conf
-
 # Download and install Proton GE (https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton11-7/GE-Proton11-7-x86_64.tar.gz)
 # Under /home/ubuntu/proton, so that it can be used by umu-run
 RUN mkdir -p /home/ubuntu/proton \
