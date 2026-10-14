@@ -7,4 +7,4 @@ mkdir -p .cache/umu .cache/appdata .cache/nvidia
 sudo chown -R 1000:1000 .cache
 sudo chmod -R 777 .cache
 
-sudo docker-compose build
+sudo docker compose build
