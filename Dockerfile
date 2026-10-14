@@ -13,7 +13,6 @@ ENV PROTON_NVIDIA_NVENC=1
 ENV PROTON_FORCE_NVAPI=1
 # Tweak for UE apps crash due to missing GPU information
 ENV DXVK_NVAPI_D3D12_NV_SHADER_EXTN=1
-ENV UMU_RUNTIME_UPDATE=0
 
 # Install all the required packages not included in base image
 RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections \
@@ -48,7 +47,7 @@ RUN mkdir -p /home/ubuntu/proton \
  && wget -qO- https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton11-7/GE-Proton11-7-x86_64.tar.gz \
   | tar -xz -C /home/ubuntu/proton --strip-components=1
 
-# Run umu-run once so it can download Valve's Proton and other stuff
+# Run umu-run once so it can download Steam Runtime
 RUN mkdir -p /home/ubuntu/proton
 RUN UMU_RUNTIME_UPDATE=1 umu-run "" || true
 
@@ -57,6 +56,7 @@ RUN sudo apt autoremove -y
 RUN sudo rm -rf /var/lib/apt/lists/*
 
 # Sensible defaults
+ENV UMU_RUNTIME_UPDATE=0
 ENV NVIDIA_DRIVER_CAPABILITIES=all \
     NVIDIA_VISIBLE_DEVICES=all \
     DISPLAY=:1

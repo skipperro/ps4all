@@ -38,65 +38,45 @@ services:
     #devices:
     #  - '/dev/dri:/dev/dri'
     volumes:
-      - ./app:/home/ubuntu/app:ro
+      - ./app:/home/ubuntu/app:rw
+      - ./mangohud/MangoHud.conf:/home/ubuntu/.config/MangoHud/MangoHud.conf:ro
       - umu-cache:/home/ubuntu/.local/share/umu
+      - appdata-cache:/home/ubuntu/wineprefix/drive_c/users/steamuser/AppData/
 
     # Uncomment to disable network isolation, which the WebRTC transport needs
     # without a TURN server; display `:20` must then be free on the host
 #    network_mode: 'host'
     environment:
     - TZ=UTC
-    # Password of the container Linux user, and the web login when
-    # SELKIES_BASIC_AUTH_PASSWORD is not set
-    #- PASSWD=mypasswd
-    ###
-    # Selkies settings, `selkies --help` and
-    # https://github.com/selkies-project/selkies/blob/main/docs/settings.md for
-    # the rest
-    ###
-    # Transport: the WebSocket default needs nothing but the web port; `webrtc`
-    # needs the TURN or host-networking arrangements below
-#    - SELKIES_MODE=webrtc
-    # `true` runs the same desktop on the headless Wayland backend (nested kwin)
-    # instead of the X11 framebuffer server
     - SELKIES_WAYLAND=false
-    # The size the X11 desktop has until a client connects and replaces it with
-    # its own (dynamic resizing is on by default); the size a manual resolution
-    # locks the stream to takes its place where set, read as Selkies reads it
-#    - DISPLAY_SIZEW=1920
-#    - DISPLAY_SIZEH=1080
-#    - SELKIES_MANUAL_WIDTH=1920
-#    - SELKIES_MANUAL_HEIGHT=1080
-    # The web login, on by default: `ubuntu` and PASSWD unless set here
     - SELKIES_ENABLE_BASIC_AUTH=false
-#    - SELKIES_BASIC_AUTH_USER=ubuntu
-#    - SELKIES_BASIC_AUTH_PASSWORD=mypasswd
-    # TLS is served by default on a certificate minted per install; name a real
-    # one, or set false for a deployment that terminates TLS in front
     - SELKIES_ENABLE_HTTPS=true
-#    - SELKIES_HTTPS_CERT=/etc/ssl/certs/ssl-cert-snakeoil.pem
-#    - SELKIES_HTTPS_KEY=/etc/ssl/private/ssl-cert-snakeoil.key
-    # Which GPU the session renders on when the container was given several
-#    - SELKIES_AUTO_GPU=true
-    ###
-    # WebRTC transport: an external TURN server, or the container's own
-    ###
-#    - SELKIES_TURN_HOST=turn.example.com
-#    - SELKIES_TURN_PORT=3478
-    # `tcp` when UDP is throttled or blocked in the client network
-#    - SELKIES_TURN_PROTOCOL=udp
-    # TURN over TLS needs a valid hostname and certificate on the TURN server
-#    - SELKIES_TURN_TLS=false
-    # Internal TURN server: its port range, with the ports above opened; leave
-    # the external TURN settings below unset
-#    - TURN_MIN_PORT=65532
-#    - TURN_MAX_PORT=65535
-    # One of the shared secret, or the username and password pair
-#    - SELKIES_TURN_SHARED_SECRET=n0TaRealCoTURNAuthSecretThatIsSixtyFourLengthsLongPlaceholdPlace
-#    - SELKIES_TURN_USERNAME=username
-#    - SELKIES_TURN_PASSWORD=mypasswd
-    # TURN REST API credentials, which replace every other TURN setting
-#    - 'SELKIES_TURN_REST_URI=http://localhost:8008'
+
+    # Defaults for testing
+
+    - SELKIES_MODE=websocket
+    - SELKIES_ENCODER=h264enc
+    - SELKIES_VIDEO_FULLCOLOR=false
+    - SELKIES_FRAMERATE=60,30-60
+    - SELKIES_VIDEO_BITRATE=10000,1000-30000
+    - SELKIES_RATE_CONTROL_MODE=cbr
+    - SELKIES_AUDIO_ENABLED=true
+    - SELKIES_AUDIO_BITRATE=256
+    - SELKIES_AUDIO_CHANNELS=2
+    - SELKIES_AUDIO_FRAME_DURATION_MS=60
+    - SELKIES_GAMEPAD_ON_START=false
+    - SELKIES_GAMEPAD_ENABLED=false
+    - SELKIES_UI_SHOW_CORE_BUTTONS=false
+    - SELKIES_UI_SIDEBAR_SHOW_CLIPBOARD=false
+ #   - SELKIES_UI_SIDEBAR_SHOW_FILES=false
+    - SELKIES_UI_SIDEBAR_SHOW_APPS=false
+    - SELKIES_UI_SIDEBAR_SHOW_SHARING=false
+    - SELKIES_UI_SIDEBAR_SHOW_GAMEPADS=false
+    - SELKIES_UI_SIDEBAR_SHOW_WEBCAM=false
+#    - SELKIES_RUN_AFTER_CONNECT=/bin/bash -lc "cd /home/ubuntu && exec mangohud umu-run /home/ubuntu/app/ccg_RoyalEnfield/Binaries/Win64/ccg_RoyalEnfield-Win64-Shipping.exe > /tmp/umu-logs.log 2>&1"
+#    - SELKIES_RUN_AFTER_DISCONNECT=killall umu-run
+#    - START_PLASMA=false
 
 volumes:
   umu-cache:
+  appdata-cache:
