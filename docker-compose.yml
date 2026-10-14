@@ -42,6 +42,7 @@ services:
       - ./mangohud/MangoHud.conf:/home/ubuntu/.config/MangoHud/MangoHud.conf:ro
       - umu-cache:/home/ubuntu/.local/share/umu
       - appdata-cache:/home/ubuntu/wineprefix/drive_c/users/steamuser/AppData/
+      - appdata-cache:/home/ubuntu/wineprefix/drive_c/users/steamuser/AppData/
 
     # Uncomment to disable network isolation, which the WebRTC transport needs
     # without a TURN server; display `:20` must then be free on the host
